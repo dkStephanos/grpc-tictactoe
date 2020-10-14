@@ -10,17 +10,23 @@ namespace GrpcServer
         public char cpuToken;
         public TicTacToeBoard board;
 
-        public TicTacToeGame(char playerToken)
+        public TicTacToeGame()
+        {
+          this.board = new TicTacToeBoard();
+        }
+
+        public void selectPlayerToken(char playerToken)
         {
             this.playerToken = playerToken;
-            if(playerToken == 'X')
+            if (playerToken == 'X')
             {
                 this.cpuToken = 'O';
-            } else
+            }
+            else
             {
                 this.cpuToken = 'X';
+                playCpuTurn();
             }
-            this.board = new TicTacToeBoard();
         }
 
         public string playTurn(int position)
@@ -32,11 +38,16 @@ namespace GrpcServer
 
             board.boardCells[position] = playerToken;
 
+            playCpuTurn();
+
+            return checkForResult(board.boardCells);
+        }
+
+        public void playCpuTurn()
+        {
             var random = new Random();
             List<int> openCells = getOpenCells();
             board.boardCells[openCells[random.Next(openCells.Count)]] = cpuToken;
-
-            return checkForResult(board.boardCells);
         }
 
         public static string checkForResult(char[] boardCells)
