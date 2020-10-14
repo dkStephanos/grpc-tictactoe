@@ -6,16 +6,29 @@ package tictactoe;
 
 // The TicTacToe service definition.
 service TicTacToe {
+  // Sends greeting to player prompting for the player's token (X or O)
+  rpc GreetPlayer (GreetRequest) returns (GreetResponse);
   // Sends a request for a new game with the player's chosen token
   rpc NewGame (PlayerToken) returns (CurrentGameBoard);
 }
 
-// The request message containing the player's token
+// The request message from the client to initialize the server
+message GreetRequest {
+  string greetRequestMsg = 1;
+}
+
+// The response message containing a greeting and prompt to select a player token
+message GreetResponse {
+  string greetResponseMsg = 1;
+}
+
+// The message containing the player's token
 message PlayerToken {
-  string playerToken = 1;
+  string playerTokenMsg = 1;
 }
 
 // The response message containing game board
 message CurrentGameBoard {
   string board = 1;
+  string gameMsg = 2;
 }

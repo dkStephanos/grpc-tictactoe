@@ -18,13 +18,23 @@ namespace GrpcServer
             _currGame = currGame;
         }
 
+        public override Task<GreetResponse> GreetPlayer(GreetRequest request, ServerCallContext context)
+        {
+
+            return Task.FromResult(new GreetResponse
+            {
+                GreetResponseMsg = _currGame.GetGreetingPrompt()
+            });
+        }
+
         public override Task<CurrentGameBoard> NewGame(PlayerToken request, ServerCallContext context)
         {
-            _currGame.selectPlayerToken(char.Parse(request.PlayerToken_));  
+            _currGame.selectPlayerToken(char.Parse(request.PlayerTokenMsg));  
 
             return Task.FromResult(new CurrentGameBoard
             {
-                Board = _currGame.board.drawBoard()
+                Board = _currGame.board.drawBoard(),
+                GameMsg = "\nWhere would you like to go?"
             });
         }
     }

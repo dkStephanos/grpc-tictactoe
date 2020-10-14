@@ -9,10 +9,16 @@ namespace GrpcServer
         public char playerToken;
         public char cpuToken;
         public TicTacToeBoard board;
+        public const string greeting  = "Welcome to the Tic-Tac-Server. Are you playing X or O?  ";
 
         public TicTacToeGame()
         {
           this.board = new TicTacToeBoard();
+        }
+
+        public string GetGreetingPrompt()
+        {
+            return greeting;
         }
 
         public void selectPlayerToken(char playerToken)
