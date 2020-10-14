@@ -10,16 +10,17 @@ namespace GrpcServer
     public class TicTacToeService : TicTacToe.TicTacToeBase
     {
         private readonly ILogger<TicTacToeService> _logger;
-        private TicTacToeGame _currGame;
+        private readonly TicTacToeGame _currGame;
 
-        public TicTacToeService(ILogger<TicTacToeService> logger)
+        public TicTacToeService(TicTacToeGame currGame, ILogger<TicTacToeService> logger)
         {
             _logger = logger;
+            _currGame = currGame;
         }
 
         public override Task<CurrentGameBoard> NewGame(PlayerToken request, ServerCallContext context)
         {
-            _currGame = new TicTacToeGame(char.Parse(request.PlayerToken_));
+            _currGame.selectPlayerToken(char.Parse(request.PlayerToken_));  
 
             return Task.FromResult(new CurrentGameBoard
             {
