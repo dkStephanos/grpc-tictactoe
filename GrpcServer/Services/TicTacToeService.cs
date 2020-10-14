@@ -29,12 +29,19 @@ namespace GrpcServer
 
         public override Task<CurrentGameBoard> NewGame(PlayerToken request, ServerCallContext context)
         {
-            _currGame.selectPlayerToken(char.Parse(request.PlayerTokenMsg));  
-
+            string gameMsg = "\nWhere would you like to go?";
+            if(char.Parse(request.PlayerTokenMsg) == 'X' || char.Parse(request.PlayerTokenMsg) == 'O')
+            {
+                _currGame.selectPlayerToken(char.Parse(request.PlayerTokenMsg));
+            } else
+            {
+                gameMsg = "Invalid Selection: Must be X or O. Try again: ";
+            }
+               
             return Task.FromResult(new CurrentGameBoard
             {
                 Board = _currGame.board.drawBoard(),
-                GameMsg = "\nWhere would you like to go?"
+                GameMsg = gameMsg
             });
         }
 

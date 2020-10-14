@@ -20,6 +20,14 @@ namespace GrpcClient
             CurrentGameBoard reply = await client.NewGameAsync(
                 new PlayerToken { PlayerTokenMsg = playerToken });
 
+            while(reply.GameMsg.Contains("Invalid"))
+            {
+                Console.WriteLine(reply.GameMsg);
+                playerToken = Console.ReadLine();
+                reply = await client.NewGameAsync(
+                    new PlayerToken { PlayerTokenMsg = playerToken });
+            }
+
             string nextMove;
             while(!reply.GameMsg.Contains("won!") && !reply.GameMsg.Contains("Draw"))
             {
@@ -31,7 +39,7 @@ namespace GrpcClient
             }
          
          // Print the final game board with message
-         Console.WriteLine($"{reply.Board}\n{reply.GameMsg}");
+         Console.WriteLine($"{reply.Board}\n{reply.GameMsg}\n");
          
             
          Console.WriteLine("Press any key to exit...");
