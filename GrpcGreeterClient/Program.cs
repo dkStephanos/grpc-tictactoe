@@ -1,9 +1,9 @@
 ﻿using Grpc.Net.Client;
-using GrpcGreeter;
+using GrpcServer;
 using System;
 using System.Threading.Tasks;
 
-namespace GrpcGreeterClient
+namespace GrpcClient
 {
    class Program
    {
