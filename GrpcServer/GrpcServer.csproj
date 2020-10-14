@@ -6,10 +6,15 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\tictactoe.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TicTacToe\" />
   </ItemGroup>
 
 </Project>

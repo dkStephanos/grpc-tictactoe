@@ -1,5 +1,5 @@
 ﻿using System;
-namespace SynchronousServer
+namespace GrpcServer
 {
     public class TicTacToeBoard
     {

@@ -1,6 +1,8 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "GrpcTicTacToe";
+option csharp_namespace = "GrpcServer";
+
+package tictactoe;
 
 // The TicTacToe service definition.
 service TicTacToe {

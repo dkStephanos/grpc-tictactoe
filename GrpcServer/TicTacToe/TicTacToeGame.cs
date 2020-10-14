@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SynchronousServer
+namespace GrpcServer
 {
     public class TicTacToeGame
     {
