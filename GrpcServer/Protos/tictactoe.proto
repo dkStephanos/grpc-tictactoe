@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcTicTacToe";
+
+// The TicTacToe service definition.
+service TicTacToe {
+  // Sends a request for a new game with the player's chosen token
+  rpc NewGame (PlayerToken) returns (CurrentGameBoard);
+}
+
+// The request message containing the player's token
+message PlayerToken {
+  string playerToken = 1;
+}
+
+// The response message containing game board
+message CurrentGameBoard {
+  string board = 1;
+}
