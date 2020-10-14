@@ -37,5 +37,18 @@ namespace GrpcServer
                 GameMsg = "\nWhere would you like to go?"
             });
         }
+
+        public override Task<CurrentGameBoard> PlayNextTurn(PlayerMove request, ServerCallContext context)
+        {
+            string gameMsg = _currGame.playTurn(int.Parse(request.BoardLocation));
+
+            if (gameMsg == "Not Finished") gameMsg = "Where would you like to go next?";
+
+            return Task.FromResult(new CurrentGameBoard
+            {
+                Board = _currGame.board.drawBoard(),
+                GameMsg = gameMsg
+            });
+        }
     }
 }

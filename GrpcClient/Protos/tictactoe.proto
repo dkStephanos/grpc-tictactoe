@@ -8,8 +8,12 @@ package tictactoe;
 service TicTacToe {
   // Sends greeting to player prompting for the player's token (X or O)
   rpc GreetPlayer (GreetRequest) returns (GreetResponse);
+ 
   // Sends a request for a new game with the player's chosen token
   rpc NewGame (PlayerToken) returns (CurrentGameBoard);
+
+  // Plays the next turn of TicTacToe
+  rpc PlayNextTurn (PlayerMove) returns (CurrentGameBoard);
 }
 
 // The request message from the client to initialize the server
@@ -25,6 +29,11 @@ message GreetResponse {
 // The message containing the player's token
 message PlayerToken {
   string playerTokenMsg = 1;
+}
+
+// The message containing the board location for the player's move
+message PlayerMove {
+  string boardLocation = 1;
 }
 
 // The response message containing game board

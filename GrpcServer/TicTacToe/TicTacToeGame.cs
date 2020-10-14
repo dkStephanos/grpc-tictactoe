@@ -53,7 +53,8 @@ namespace GrpcServer
         {
             var random = new Random();
             List<int> openCells = getOpenCells();
-            board.boardCells[openCells[random.Next(openCells.Count)]] = cpuToken;
+            if(openCells.Count > 0)
+                board.boardCells[openCells[random.Next(openCells.Count)]] = cpuToken;
         }
 
         public static string checkForResult(char[] boardCells)
