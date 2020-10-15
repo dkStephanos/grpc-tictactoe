@@ -47,16 +47,28 @@ namespace GrpcServer
 
         public override Task<CurrentGameBoard> PlayNextTurn(PlayerMove request, ServerCallContext context)
         {
-            string gameMsg = _currGame.playTurn(int.Parse(request.BoardLocation));
-            string gameBoard = _currGame.board.drawBoard();
-
-            if (gameMsg == "Not Finished")
+            string gameMsg;
+            string errorMsg = "Invalid Selection: Must be a number between 0-9. Try again: ";
+            int boardLocation;
+            bool validBoardLocation = Int32.TryParse(request.BoardLocation, out boardLocation);
+            if (validBoardLocation && boardLocation <= 9 && boardLocation >= 0)
             {
-                gameMsg = "Where would you like to go next?";
+                gameMsg = _currGame.playTurn(boardLocation);
             } else
             {
-                _currGame.resetBoard();
+                gameMsg = errorMsg;
             }
+                
+            string gameBoard = _currGame.board.drawBoard();
+
+            if (gameMsg.Contains("won!") || gameMsg.Contains("Draw"))
+            {
+                _currGame.resetBoard();
+            } else if (gameMsg != errorMsg)
+            {
+                gameMsg = "Where would you like to go next?";
+            }
+
             return Task.FromResult(new CurrentGameBoard
             {
                 Board = gameBoard,
