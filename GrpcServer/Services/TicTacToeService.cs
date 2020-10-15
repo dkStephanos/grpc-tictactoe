@@ -30,7 +30,9 @@ namespace GrpcServer
         public override Task<CurrentGameBoard> NewGame(PlayerToken request, ServerCallContext context)
         {
             string gameMsg = "\nWhere would you like to go?";
-            if(char.Parse(request.PlayerTokenMsg) == 'X' || char.Parse(request.PlayerTokenMsg) == 'O')
+            char playerToken;
+
+            if(Char.TryParse(request.PlayerTokenMsg, out playerToken) && (playerToken == 'X' || playerToken == 'O'))
             {
                 _currGame.selectPlayerToken(char.Parse(request.PlayerTokenMsg));
             } else
