@@ -48,12 +48,18 @@ namespace GrpcServer
         public override Task<CurrentGameBoard> PlayNextTurn(PlayerMove request, ServerCallContext context)
         {
             string gameMsg = _currGame.playTurn(int.Parse(request.BoardLocation));
+            string gameBoard = _currGame.board.drawBoard();
 
-            if (gameMsg == "Not Finished") gameMsg = "Where would you like to go next?";
-
+            if (gameMsg == "Not Finished")
+            {
+                gameMsg = "Where would you like to go next?";
+            } else
+            {
+                _currGame.resetBoard();
+            }
             return Task.FromResult(new CurrentGameBoard
             {
-                Board = _currGame.board.drawBoard(),
+                Board = gameBoard,
                 GameMsg = gameMsg
             });
         }
