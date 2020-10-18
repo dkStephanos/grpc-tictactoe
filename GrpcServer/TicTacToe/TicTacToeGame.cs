@@ -11,21 +11,25 @@ namespace GrpcServer
         public TicTacToeBoard board;
         public const string greeting  = "Welcome to the Tic-Tac-Server. Are you playing X or O?  ";
 
+        // Default constructor, creates a new game board instance
         public TicTacToeGame()
         {
           this.board = new TicTacToeBoard();
         }
 
+        // Returns the welcome prompt from the server
         public string GetGreetingPrompt()
         {
             return greeting;
         }
 
+        // Creates a new game board instance to play again
         public void resetBoard()
         {
             this.board = new TicTacToeBoard();
         }
 
+        // Sets the player token to the chosen character, and the CPU token to the opposite
         public void selectPlayerToken(char playerToken)
         {
             this.playerToken = playerToken;
@@ -40,6 +44,7 @@ namespace GrpcServer
             }
         }
 
+        // Checks user's selection, placing it in the board if unoccupied, then triggers the CPU's turn (if neccessary) and returns the current result.
         public string playTurn(int position)
         {
             if(board.boardCells[position] != ' ')
@@ -49,11 +54,12 @@ namespace GrpcServer
 
             board.boardCells[position] = playerToken;
 
-            playCpuTurn();
+            if(checkForResult(board.boardCells) == "Not Finished") playCpuTurn();
 
             return checkForResult(board.boardCells);
         }
 
+        // Checks to board for open cells, and places the CPU token in one of the open slots
         public void playCpuTurn()
         {
             var random = new Random();
@@ -62,6 +68,8 @@ namespace GrpcServer
                 board.boardCells[openCells[random.Next(openCells.Count)]] = cpuToken;
         }
 
+        // Checks the game board to see if a draw or victory condition has been met
+        // returns the final message if game is over, otherwise returns "Not Finished"
         public string checkForResult(char[] boardCells)
         {
             string status = "";
@@ -129,6 +137,7 @@ namespace GrpcServer
             return status;
         }
 
+        // Checks open cells left in board, and returns the list
         public List<int> getOpenCells()
         {
             List<int> openCells = new List<int>();
